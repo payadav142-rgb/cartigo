@@ -15,13 +15,14 @@ export default function ProductsPage() {
         </p>
       </div>
 
+      {/* Layout */}
       <div className="grid gap-8 lg:grid-cols-12">
         {/* Sidebar */}
         <aside className="lg:col-span-3">
           <FilterSidebar />
         </aside>
 
-        {/* Products */}
+        {/* Products Section */}
         <section className="lg:col-span-9">
           {/* Top Bar */}
           <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -32,11 +33,12 @@ export default function ProductsPage() {
             <SortDropdown />
           </div>
 
-          {/* Grid */}
+          {/* Product Grid */}
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {products.map((product) => (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 image={product.image}
                 title={product.title}
                 price={product.price}
