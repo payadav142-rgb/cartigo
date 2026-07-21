@@ -1,3 +1,4 @@
+import FilterSidebar from "@/components/products/FilterSidebar";
 import ProductCard from "@/components/shared/ProductCard";
 import { products } from "@/data/products";
 
@@ -13,19 +14,29 @@ export default function ProductsPage() {
         </p>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
-            originalPrice={product.originalPrice}
-            rating={product.rating}
-            reviews={product.reviews}
-          />
-        ))}
+      {/* Layout */}
+      <div className="grid gap-8 lg:grid-cols-12">
+        {/* Sidebar */}
+        <aside className="lg:col-span-3">
+          <FilterSidebar />
+        </aside>
+
+        {/* Products */}
+        <section className="lg:col-span-9">
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                image={product.image}
+                title={product.title}
+                price={product.price}
+                originalPrice={product.originalPrice}
+                rating={product.rating}
+                reviews={product.reviews}
+              />
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );
