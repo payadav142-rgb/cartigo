@@ -5,14 +5,24 @@ import ProductCard from "@/components/shared/ProductCard";
 import FilterSidebar from "./FilterSidebar";
 import SortDropdown from "./SortDropdown";
 import SearchBar from "@/components/home/SearchBar";
+
 import { useProductSearch } from "@/hooks/useProductSearch";
+import { useProductFilter } from "@/hooks/useProductFilter";
 
 export default function ProductsClient() {
+  // Search
   const {
     search,
     setSearch,
-    filteredProducts,
+    filteredProducts: searchedProducts,
   } = useProductSearch(products);
+
+  // Filter
+  const {
+    category,
+    setCategory,
+    filteredProducts,
+  } = useProductFilter(searchedProducts);
 
   return (
     <>
@@ -25,11 +35,15 @@ export default function ProductsClient() {
       <div className="grid gap-8 lg:grid-cols-12">
         {/* Sidebar */}
         <aside className="lg:col-span-3">
-          <FilterSidebar />
+          <FilterSidebar
+            category={category}
+            onCategoryChange={setCategory}
+          />
         </aside>
 
         {/* Products */}
         <section className="lg:col-span-9">
+          {/* Top Bar */}
           <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <p className="text-gray-600">
               {filteredProducts.length} Products Found
@@ -38,6 +52,7 @@ export default function ProductsClient() {
             <SortDropdown />
           </div>
 
+          {/* Empty State */}
           {filteredProducts.length === 0 ? (
             <div className="rounded-xl border py-20 text-center">
               <h2 className="text-2xl font-bold">
