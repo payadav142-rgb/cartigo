@@ -1,6 +1,6 @@
 "use client";
 
-import { products } from "@/data/products";
+import { getAllProducts } from "@/services/product.service";
 
 import ProductCard from "@/components/shared/ProductCard";
 import SearchBar from "@/components/shared/SearchBar";
@@ -14,7 +14,10 @@ import { useProductSort } from "@/hooks/useProductSort";
 import { usePagination } from "@/hooks/usePagination";
 
 export default function ProductsClient() {
+  const products = getAllProducts();
+
   // Dynamic Categories
+  
   const categories = [
     "All",
     ...new Set(products.map((product) => product.category)),

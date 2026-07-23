@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { products } from "@/data/products";
+import { getProductById } from "@/services/product.service";
 
 type Props = {
   params: Promise<{
@@ -15,7 +15,7 @@ export default async function ProductDetails({
 }: Props) {
   const { id } = await params;
 
-  const product = products.find((p) => p.id === id);
+  const product = getProductById(id);
 
   if (!product) {
     notFound();
