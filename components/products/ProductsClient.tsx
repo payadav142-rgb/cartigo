@@ -20,6 +20,12 @@ export default function ProductsClient() {
     ...new Set(products.map((product) => product.category)),
   ];
 
+  // Dynamic Brands
+  const brands = [
+    "All",
+    ...new Set(products.map((product) => product.brand)),
+  ];
+
   // Search
   const {
     search,
@@ -31,6 +37,8 @@ export default function ProductsClient() {
   const {
     category,
     setCategory,
+    brand,
+    setBrand,
     filteredProducts,
   } = useProductFilter(searchedProducts);
 
@@ -58,17 +66,24 @@ export default function ProductsClient() {
       />
 
       <div className="grid gap-8 lg:grid-cols-12">
+        {/* Sidebar */}
         <aside className="lg:col-span-3">
           <FilterSidebar
             categories={categories}
+            brands={brands}
             category={category}
+            brand={brand}
             onCategoryChange={setCategory}
+            onBrandChange={setBrand}
           />
         </aside>
 
+        {/* Products */}
         <section className="lg:col-span-9">
-          <div className="mb-6 flex items-center justify-between">
-            <p>{sortedProducts.length} Products Found</p>
+          <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+            <p className="text-gray-600">
+              {sortedProducts.length} Products Found
+            </p>
 
             <SortDropdown
               value={sortBy}
