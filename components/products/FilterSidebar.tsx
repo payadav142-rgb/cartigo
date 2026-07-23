@@ -1,21 +1,16 @@
 "use client";
 
 type FilterSidebarProps = {
+  categories: string[];
   category: string;
   onCategoryChange: (value: string) => void;
 };
 
 export default function FilterSidebar({
+  categories,
   category,
   onCategoryChange,
 }: FilterSidebarProps) {
-  const categories = [
-    "All",
-    "Mobiles",
-    "Laptops",
-    "Headphones",
-  ];
-
   return (
     <aside className="rounded-xl border bg-white p-6">
       <h2 className="mb-6 text-xl font-bold">
@@ -31,7 +26,7 @@ export default function FilterSidebar({
           {categories.map((item) => (
             <label
               key={item}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex cursor-pointer items-center gap-2"
             >
               <input
                 type="radio"
@@ -40,7 +35,7 @@ export default function FilterSidebar({
                 onChange={() => onCategoryChange(item)}
               />
 
-              {item}
+              <span>{item}</span>
             </label>
           ))}
         </div>

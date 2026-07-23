@@ -14,6 +14,12 @@ import { useProductSort } from "@/hooks/useProductSort";
 import { usePagination } from "@/hooks/usePagination";
 
 export default function ProductsClient() {
+  // Dynamic Categories
+  const categories = [
+    "All",
+    ...new Set(products.map((product) => product.category)),
+  ];
+
   // Search
   const {
     search,
@@ -54,6 +60,7 @@ export default function ProductsClient() {
       <div className="grid gap-8 lg:grid-cols-12">
         <aside className="lg:col-span-3">
           <FilterSidebar
+            categories={categories}
             category={category}
             onCategoryChange={setCategory}
           />
