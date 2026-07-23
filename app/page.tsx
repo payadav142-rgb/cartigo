@@ -1,5 +1,4 @@
 import Hero from "@/components/home/Hero";
-import SearchBar from "@/components/home/SearchBar";
 import Categories from "@/components/home/Categories";
 import Deals from "@/components/home/Deals";
 
@@ -8,10 +7,6 @@ export default function Home() {
     <main>
       <Hero />
 
-      <SearchBar
-        value=""
-        onChange={() => {}}
-      />
 
       <Categories />
 

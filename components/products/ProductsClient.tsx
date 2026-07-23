@@ -4,7 +4,7 @@ import { products } from "@/data/products";
 import ProductCard from "@/components/shared/ProductCard";
 import FilterSidebar from "./FilterSidebar";
 import SortDropdown from "./SortDropdown";
-import SearchBar from "@/components/home/SearchBar";
+import SearchBar from "@/components/shared/SearchBar";
 
 import { useProductSearch } from "@/hooks/useProductSearch";
 import { useProductFilter } from "@/hooks/useProductFilter";
