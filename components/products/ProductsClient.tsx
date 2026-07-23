@@ -1,14 +1,17 @@
 "use client";
 
 import { products } from "@/data/products";
+
 import ProductCard from "@/components/shared/ProductCard";
+import SearchBar from "@/components/shared/SearchBar";
 import FilterSidebar from "./FilterSidebar";
 import SortDropdown from "./SortDropdown";
-import SearchBar from "@/components/shared/SearchBar";
+import Pagination from "./Pagination";
 
 import { useProductSearch } from "@/hooks/useProductSearch";
 import { useProductFilter } from "@/hooks/useProductFilter";
 import { useProductSort } from "@/hooks/useProductSort";
+import { usePagination } from "@/hooks/usePagination";
 
 export default function ProductsClient() {
   // Search
@@ -32,16 +35,23 @@ export default function ProductsClient() {
     sortedProducts,
   } = useProductSort(filteredProducts);
 
+  // Pagination
+  const {
+    currentPage,
+    totalPages,
+    paginatedItems,
+    nextPage,
+    previousPage,
+  } = usePagination(sortedProducts, 12);
+
   return (
     <>
-      {/* Search */}
       <SearchBar
         value={search}
         onChange={setSearch}
       />
 
       <div className="grid gap-8 lg:grid-cols-12">
-        {/* Sidebar */}
         <aside className="lg:col-span-3">
           <FilterSidebar
             category={category}
@@ -49,13 +59,9 @@ export default function ProductsClient() {
           />
         </aside>
 
-        {/* Products */}
         <section className="lg:col-span-9">
-          {/* Top Bar */}
-          <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <p className="text-gray-600">
-              {sortedProducts.length} Products Found
-            </p>
+          <div className="mb-6 flex items-center justify-between">
+            <p>{sortedProducts.length} Products Found</p>
 
             <SortDropdown
               value={sortBy}
@@ -63,8 +69,7 @@ export default function ProductsClient() {
             />
           </div>
 
-          {/* Empty State */}
-          {sortedProducts.length === 0 ? (
+          {paginatedItems.length === 0 ? (
             <div className="rounded-xl border py-20 text-center">
               <h2 className="text-2xl font-bold">
                 No Products Found
@@ -75,14 +80,23 @@ export default function ProductsClient() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {sortedProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {paginatedItems.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPrevious={previousPage}
+                onNext={nextPage}
+              />
+            </>
           )}
         </section>
       </div>
