@@ -7,8 +7,14 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <SearchBar />
+
+      <SearchBar
+        value=""
+        onChange={() => {}}
+      />
+
       <Categories />
+
       <Deals />
     </main>
   );
