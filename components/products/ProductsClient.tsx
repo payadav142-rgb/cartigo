@@ -8,6 +8,7 @@ import SearchBar from "@/components/shared/SearchBar";
 
 import { useProductSearch } from "@/hooks/useProductSearch";
 import { useProductFilter } from "@/hooks/useProductFilter";
+import { useProductSort } from "@/hooks/useProductSort";
 
 export default function ProductsClient() {
   // Search
@@ -23,6 +24,13 @@ export default function ProductsClient() {
     setCategory,
     filteredProducts,
   } = useProductFilter(searchedProducts);
+
+  // Sort
+  const {
+    sortBy,
+    setSortBy,
+    sortedProducts,
+  } = useProductSort(filteredProducts);
 
   return (
     <>
@@ -46,14 +54,17 @@ export default function ProductsClient() {
           {/* Top Bar */}
           <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <p className="text-gray-600">
-              {filteredProducts.length} Products Found
+              {sortedProducts.length} Products Found
             </p>
 
-            <SortDropdown />
+            <SortDropdown
+              value={sortBy}
+              onChange={setSortBy}
+            />
           </div>
 
           {/* Empty State */}
-          {filteredProducts.length === 0 ? (
+          {sortedProducts.length === 0 ? (
             <div className="rounded-xl border py-20 text-center">
               <h2 className="text-2xl font-bold">
                 No Products Found
@@ -65,7 +76,7 @@ export default function ProductsClient() {
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {filteredProducts.map((product) => (
+              {sortedProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
