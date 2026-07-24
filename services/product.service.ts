@@ -1,28 +1,48 @@
-import { products } from "@/data/products";
-import { Product } from "@/types/product";
+import { supabase } from "@/lib/supabase/server";
 
-export function getAllProducts(): Product[] {
-  return products;
+export async function getAllProducts() {
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      brands(name),
+      categories(name),
+      product_prices(
+        price,
+        original_price,
+        affiliate_url,
+        stores(name)
+      )
+    `);
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return data;
 }
 
-export function getProductById(
-  id: string
-): Product | undefined {
-  return products.find((product) => product.id === id);
-}
+export async function getProductBySlug(slug: string) {
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      brands(name),
+      categories(name),
+      product_prices(
+        price,
+        original_price,
+        affiliate_url,
+        stores(name)
+      )
+    `)
+    .eq("slug", slug)
+    .single();
 
-export function getProductsByCategory(
-  category: string
-): Product[] {
-  return products.filter(
-    (product) => product.category === category
-  );
-}
+  if (error) {
+    return null;
+  }
 
-export function getProductsByBrand(
-  brand: string
-): Product[] {
-  return products.filter(
-    (product) => product.brand === brand
-  );
+  return data;
 }
