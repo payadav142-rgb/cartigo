@@ -1,12 +1,46 @@
+export interface Brand {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface Store {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface ProductPrice {
+  id: string;
+  price: number;
+  original_price: number;
+  affiliate_url: string;
+  in_stock: boolean;
+  stores: Store;
+}
+
 export interface Product {
   id: string;
+
   title: string;
+  slug: string;
+
+  description: string | null;
+
   image: string;
-  price: number;
-  originalPrice: number;
+
   rating: number;
   reviews: number;
-  category: string;
-  brand: string;
-  affiliateUrl: string;
+
+  brands: Brand;
+
+  categories: Category;
+
+  product_prices: ProductPrice[];
 }

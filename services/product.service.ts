@@ -1,48 +1,32 @@
-import { supabase } from "@/lib/supabase/server";
+import {
+  getProducts,
+  getProduct,
+} from "@/repositories/product.repository";
 
-export async function getAllProducts() {
-  const { data, error } = await supabase
-    .from("products")
-    .select(`
-      *,
-      brands(name),
-      categories(name),
-      product_prices(
-        price,
-        original_price,
-        affiliate_url,
-        stores(name)
-      )
-    `);
+import { Product } from "@/types/product";
 
-  if (error) {
-    console.error(error);
-    return [];
-  }
-
-  return data;
+export async function getAllProducts(): Promise<Product[]> {
+  return await getProducts();
 }
 
-export async function getProductBySlug(slug: string) {
-  const { data, error } = await supabase
-    .from("products")
-    .select(`
-      *,
-      brands(name),
-      categories(name),
-      product_prices(
-        price,
-        original_price,
-        affiliate_url,
-        stores(name)
-      )
-    `)
-    .eq("slug", slug)
-    .single();
+export async function getProductBySlug(
+  slug: string
+): Promise<Product | null> {
+  return await getProduct(slug);
+}
 
-  if (error) {
-    return null;
-  }
+/**
+ * Temporary compatibility
+ * Remove this after migrating
+ * /products/[id] -> /products/[slug]
+ */
+export async function getProductById(
+  id: string
+): Promise<Product | null> {
+  const products = await getProducts();
 
-  return data;
+  return (
+    products.find((product) => product.id === id) ??
+    null
+  );
 }

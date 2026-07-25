@@ -1,6 +1,10 @@
 import ProductsClient from "@/components/products/ProductsClient";
 
-export default function ProductsPage() {
+import { getAllProducts } from "@/services/product.service";
+
+export default async function ProductsPage() {
+  const products = await getAllProducts();
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-10">
       <div className="mb-10">
@@ -13,7 +17,7 @@ export default function ProductsPage() {
         </p>
       </div>
 
-      <ProductsClient />
+      <ProductsClient products={products} />
     </main>
   );
 }

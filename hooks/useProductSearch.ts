@@ -12,8 +12,8 @@ export function useProductSearch(products: Product[]) {
     return products.filter((product) => {
       return (
         product.title.toLowerCase().includes(keyword) ||
-        product.brand.toLowerCase().includes(keyword) ||
-        product.category.toLowerCase().includes(keyword)
+        product.brands.name.toLowerCase().includes(keyword) ||
+        product.categories.name.toLowerCase().includes(keyword)
       );
     });
   }, [products, search]);

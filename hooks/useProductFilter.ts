@@ -8,10 +8,12 @@ export function useProductFilter(products: Product[]) {
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const categoryMatch =
-        category === "All" || product.category === category;
+        category === "All" ||
+        product.categories.name === category;
 
       const brandMatch =
-        brand === "All" || product.brand === brand;
+        brand === "All" ||
+        product.brands.name === brand;
 
       return categoryMatch && brandMatch;
     });

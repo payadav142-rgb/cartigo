@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllProducts } from "@/services/product.service";
+import { Product } from "@/types/product";
 
 import ProductCard from "@/components/shared/ProductCard";
 import SearchBar from "@/components/shared/SearchBar";
@@ -13,20 +13,31 @@ import { useProductFilter } from "@/hooks/useProductFilter";
 import { useProductSort } from "@/hooks/useProductSort";
 import { usePagination } from "@/hooks/usePagination";
 
-export default function ProductsClient() {
-  const products = getAllProducts();
+type ProductsClientProps = {
+  products: Product[];
+};
 
+export default function ProductsClient({
+  products,
+}: ProductsClientProps) {
   // Dynamic Categories
-  
   const categories = [
     "All",
-    ...new Set(products.map((product) => product.category)),
+    ...new Set(
+      products.map(
+        (product) => product.categories.name
+      )
+    ),
   ];
 
   // Dynamic Brands
   const brands = [
     "All",
-    ...new Set(products.map((product) => product.brand)),
+    ...new Set(
+      products.map(
+        (product) => product.brands.name
+      )
+    ),
   ];
 
   // Search
@@ -69,7 +80,6 @@ export default function ProductsClient() {
       />
 
       <div className="grid gap-8 lg:grid-cols-12">
-        {/* Sidebar */}
         <aside className="lg:col-span-3">
           <FilterSidebar
             categories={categories}
@@ -81,7 +91,6 @@ export default function ProductsClient() {
           />
         </aside>
 
-        {/* Products */}
         <section className="lg:col-span-9">
           <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <p className="text-gray-600">
