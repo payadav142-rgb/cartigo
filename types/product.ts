@@ -13,16 +13,6 @@ export interface Category {
 export interface Store {
   id: string;
   name: string;
-  slug: string;
-}
-
-export interface ProductPrice {
-  id: string;
-  price: number;
-  original_price: number;
-  affiliate_url: string;
-  in_stock: boolean;
-  stores: Store;
 }
 
 export interface Product {
@@ -31,16 +21,31 @@ export interface Product {
   title: string;
   slug: string;
 
+  short_description: string | null;
   description: string | null;
 
-  image: string;
+  price: number;
+  original_price: number;
+
+  affiliate_url: string;
 
   rating: number;
   reviews: number;
 
+  in_stock: boolean;
+  featured: boolean;
+  trending: boolean;
+
+  seo_title: string | null;
+  seo_description: string | null;
+
+  created_at: string;
+
+  brand_id: string;
+  category_id: string;
+  store_id: string;
+
   brands: Brand;
-
   categories: Category;
-
-  product_prices: ProductPrice[];
+  stores: Store;
 }
