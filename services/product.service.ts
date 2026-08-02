@@ -1,6 +1,9 @@
 import {
-  getProducts,
+  createProduct,
+  deleteProduct,
   getProduct,
+  getProducts,
+  updateProduct,
 } from "@/repositories/product.repository";
 
 import { Product } from "@/types/product";
@@ -17,7 +20,7 @@ export async function getProductBySlug(
 
 /**
  * Temporary compatibility
- * Remove this after migrating
+ * Remove after migrating
  * /products/[id] -> /products/[slug]
  */
 export async function getProductById(
@@ -29,4 +32,21 @@ export async function getProductById(
     products.find((product) => product.id === id) ??
     null
   );
+}
+
+export async function createNewProduct(
+  product: Omit<Product, "id">
+) {
+  return await createProduct(product);
+}
+
+export async function updateExistingProduct(
+  id: string,
+  product: Partial<Product>
+) {
+  return await updateProduct(id, product);
+}
+
+export async function removeProduct(id: string) {
+  return await deleteProduct(id);
 }
